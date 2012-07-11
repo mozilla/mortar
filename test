@@ -1,0 +1,25 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+  echo "Usage: $0 <template-name>"
+  exit
+fi
+
+tmplName="$1"
+
+# force clean builds
+rm -fr built
+mkdir built
+
+./build "$tmplName" built/$tmplName >/dev/null
+
+diff -uwr ref/$tmplName built/$tmplName
+diffExit=$?
+
+if [ "$diffExit" -eq 0 ]; then
+  echo "tests passed"
+else 
+  echo "tests failed!"
+fi
+
+exit $diffExit
