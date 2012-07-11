@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var ejs = require('ejs');
+var fs = require('fs');
+
+if(process.argv.length <= 3) {
+    console.log('Usage: ' + process.argv[0] + ' <template> <dir>');
+    process.exit();
+}
+
+var dir = process.argv[2];
+var tmpl = process.argv[3];
+
+var scope = require('./templates/default/blocks');
+var added_scope = require('./' + tmpl + '/blocks');
+
+for(var k in added_scope) {
+    scope[k] = added_scope[k];
+}
+
+function run(file) {
+    var src = fs.readFileSync(dir + file);
+    src = ejs.render('' + src, scope);
+    fs.writeFileSync(dir + file, src);
+}
+
+run('/www/index.html');
+run('/www/js/app.js');

@@ -1,0 +1,26 @@
+
+h1. Mortar
+
+"Mortar" is a code name for an Open Web App Bootstrap. This project aims to make it easy and quick to start writing Open Wep Apps.
+
+It's a combination of HTML5 tricks (HTML/CSS), js libraries, and a little bit of management commands that make it really easy to write and deploy apps.
+
+This should just be a template: you should download this and hack it up to be whatever you like. You can delete or add as much stuff as you want.
+
+View the official site "here":http://jlongster.github.com/mortar.
+
+h1. html5boilerplate
+
+This is a fork from the "html5boilerplate":http://html5boilerplate.com/ project, and many of the HTML5 tricks come from there, so the appropriate authors deserve credit for those.
+
+We don't need to target older browsers, however, so a bunch of IE 6/7 stuff has been removed and we've added things like marketplace libraries, "require.js":http://requirejs.org/, and "volo":https://github.com/volojs/volo. Any of those things can be simply ignored though.
+
+h1. Back-end server
+
+This is just a front-end template, but you'll most likely need to set up a server for your app. I highly recommend the "server-configs":https://github.com/h5bp/server-configs project from the h5b crew which provides really helpful templates for server configurations. That should help you get set up quickly.
+
+Apache's @.htaccess@ file is already included here since that's the most popular.
+
+h1. The End
+
+This is very much alpha and will be fleshed out over time.

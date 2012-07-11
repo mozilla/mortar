@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <template-name> <dest>"
+    exit
+fi
+
+tmpl="templates/$1"
+dest="$2"
+
+if [ ! -d "$tmpl" ]; then
+    echo "Type not found"
+    exit 1
+fi
+
+cp -r project "$dest"
+rsync -avz "$tmpl/project/" "$dest"
+
+./run-templates "$dest" "$tmpl"
+
+

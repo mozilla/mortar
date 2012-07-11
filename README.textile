@@ -1,0 +1,2 @@
+
+Don't take this too seriously yet. This is a template generation tool to make Open Web App templates.
