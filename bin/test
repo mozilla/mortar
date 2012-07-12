@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# assumes execution from the top-level dir
+TOP=.
+BINDIR=${TOP}/bin
+
 if [ -z "$1" ]; then
   echo "Usage: $0 <template-name>"
   exit
@@ -11,9 +15,9 @@ tmplName="$1"
 rm -fr built
 mkdir built
 
-./build "$tmplName" built/$tmplName >/dev/null
+./build "$tmplName" $TOP/built/$tmplName >/dev/null
 
-diff -uwr ref/$tmplName built/$tmplName
+diff -uwr $TOP/ref/$tmplName $TOP/built/$tmplName
 diffExit=$?
 
 if [ "$diffExit" -eq 0 ]; then

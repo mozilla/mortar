@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# assumes execution from the top-level dir
+TOP=.
+BINDIR=${TOP}/bin
+
+for d in ${TOP}/templates/*
+do
+  e=`basename $d`
+  [ $e = "default" ] && continue
+  ${BINDIR}/test $e
+done
+

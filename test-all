@@ -1,9 +1,0 @@
-#!/bin/sh
-
-for d in templates/*
-do
-  e=`basename $d`
-  [ $e = "default" ] && continue
-  ./test $e
-done
-
