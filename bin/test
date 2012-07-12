@@ -15,7 +15,7 @@ tmplName="$1"
 rm -fr built
 mkdir built
 
-./build "$tmplName" $TOP/built/$tmplName >/dev/null
+$BINDIR/build "$tmplName" $TOP/built/$tmplName >/dev/null
 
 diff -uwr $TOP/ref/$tmplName $TOP/built/$tmplName
 diffExit=$?
