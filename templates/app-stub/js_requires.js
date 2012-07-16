@@ -1,1 +1,1 @@
-'jquery'
+['jquery'], function($) {

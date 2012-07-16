@@ -24,6 +24,10 @@ var blocks = {
     js_init: 'js_init.js'
 };
 
+var defaults = {
+    js_requires: '[], function() {'
+};
+
 function get_meta(dir) {
     var p = path.join(dir, 'project.json');
 
@@ -54,7 +58,7 @@ function make_scope(dir) {
             scope[block] = fs.readFileSync(file, 'utf-8');
         }
         else if(!scope[block]) {
-            scope[block] = '';
+            scope[block] = defaults[block] || '';
         }
     }
 
