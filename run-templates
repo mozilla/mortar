@@ -2,27 +2,65 @@
 
 var ejs = require('ejs');
 var fs = require('fs');
+var path = require('path');
+var child_process = require('child_process');
 
 if(process.argv.length <= 3) {
-    console.log('Usage: ' + process.argv[0] + ' <template> <dir>');
+    console.log('Usage: ' + process.argv[0] + ' <template> <dest>');
     process.exit();
 }
 
-var dir = process.argv[2];
+var dest = process.argv[2];
 var tmpl = process.argv[3];
 
-var scope = require('./templates/default/blocks');
-var added_scope = require('./' + tmpl + '/blocks');
+var blocks = {
+    head: 'head.html',
+    footer: 'footer.html',
+    js_global: 'js_global.js',
+    js_requires: 'js_requires.js',
+    js_init: 'js_init.js'
+};
 
-for(var k in added_scope) {
-    scope[k] = added_scope[k];
+function get_meta(dir) {
+    var p = path.join(dir, 'project.json');
+
+    if(path.existsSync(p)) {
+        return JSON.parse(fs.readFileSync(p));
+    }
+
+    return {};
 }
 
-function run(file) {
-    var src = fs.readFileSync(dir + file);
+function make_scope(dir) {
+    var scope = {};
+    var meta = get_meta(dir);
+
+    if(meta.inherits) {
+        var p = path.join('templates', meta.inherits);
+        if(path.existsSync(p)) {
+            scope = make_scope(p);
+        }
+    }
+
+    for(var block in blocks) {
+        var file = path.join(dir, blocks[block]);
+        if(path.existsSync(file)) {
+            scope[block] = fs.readFileSync(file, 'utf-8');
+        }
+        else if(!scope[block]) {
+            scope[block] = '';
+        }
+    }
+
+    return scope;
+}
+
+function run(file, scope) {
+    var src = fs.readFileSync(dest + file);
     src = ejs.render('' + src, scope);
-    fs.writeFileSync(dir + file, src);
+    fs.writeFileSync(dest + file, src);
 }
 
-run('/www/index.html');
-run('/www/js/app.js');
+var scope = make_scope('templates/app-stub');
+run('/www/index.html', scope);
+run('/www/js/app.js', scope);

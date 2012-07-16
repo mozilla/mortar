@@ -5,7 +5,8 @@ if [ -z "$1" ]; then
     exit
 fi
 
-tmpl="templates/$1"
+tmpl_name="$1"
+tmpl="templates/$tmpl_name"
 dest="$2"
 
 if [ ! -d "$tmpl" ]; then
@@ -13,9 +14,20 @@ if [ ! -d "$tmpl" ]; then
     exit 1
 fi
 
+# Create the initial skeleton
 cp -r project "$dest"
-rsync -avz "$tmpl/project/" "$dest"
 
+# Sync the parent templates over it
+parent=`./tmpl-parent "$tmpl"`
+while [ -n "$parent" ]; do
+    echo "Syncing $parent..."
+    rsync -qavz "templates/$parent/project/" "$dest"    
+    parent=`./tmpl-parent "templates/$parent"`
+done
+
+# Finally, sync the selected template
+echo "Syncing $tmpl_name..."
+rsync -qavz "$tmpl/project/" "$dest"
+
+# Process the templates
 ./run-templates "$dest" "$tmpl"
-
-

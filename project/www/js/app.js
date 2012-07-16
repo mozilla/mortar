@@ -4,12 +4,13 @@
 
 var global = this;
 
-<%= js_global() %>
+<%= js_global %>
 
 // When you write javascript in separate files, list them as
 // dependencies along with jquery
-require([<%= js_requires() %>], function($) {
-<%= js_init() %>
+require([<%= js_requires %>], function($) {
+
+<%= js_init %>
 
     // START HERE: Put your js code here
 });

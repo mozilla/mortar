@@ -1,0 +1,15 @@
+#!/usr/bin/env node
+
+var path = require('path');
+var fs = require('fs');
+var util = require('util');
+
+var tmpl_path = process.argv[2];
+var json = path.join(tmpl_path, 'project.json');
+
+if(path.existsSync(json)) {
+    var meta = JSON.parse(fs.readFileSync(json));
+    if(meta.inherits) {
+        util.puts(meta.inherits);
+    }
+}
