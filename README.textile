@@ -1,2 +1,12 @@
 
 Don't take this too seriously yet. This is a template generation tool to make Open Web App templates.
+
+Blocks that you can override:
+
+head.html
+footer.html
+js_global.js
+js_requires.js
+js_init.js
+
+You can find these in @project/www/index.html@ and @project/www/js/app.js@.
