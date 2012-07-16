@@ -6,13 +6,16 @@ var path = require('path');
 var child_process = require('child_process');
 
 if(process.argv.length <= 3) {
-    console.log('Usage: ' + process.argv[0] + ' <template> <dest>');
+    console.log('Usage: ' + process.argv[0] + ' <dest> <tmpl>');
     process.exit();
 }
 
-var dest = process.argv[2];
-var tmpl = process.argv[3];
+var ROOT = path.join(path.dirname(process.argv[1]), '..');
+var DEST = process.argv[2];
+var TMPL = process.argv[3];
 
+// These are the possible "blocks" of content that template instances
+// can override
 var blocks = {
     head: 'head.html',
     footer: 'footer.html',
@@ -35,13 +38,16 @@ function make_scope(dir) {
     var scope = {};
     var meta = get_meta(dir);
 
+    // Start off with the parent's scope if inheriting a template
     if(meta.inherits) {
-        var p = path.join('templates', meta.inherits);
+        var p = path.join(ROOT, 'templates', meta.inherits);
         if(path.existsSync(p)) {
             scope = make_scope(p);
         }
     }
 
+    // Grab all the blocks of content in the template instance,
+    // defaulting to empty string
     for(var block in blocks) {
         var file = path.join(dir, blocks[block]);
         if(path.existsSync(file)) {
@@ -56,11 +62,12 @@ function make_scope(dir) {
 }
 
 function run(file, scope) {
-    var src = fs.readFileSync(dest + file);
+    // Replace the templated blocks with content
+    var src = fs.readFileSync(DEST + file);
     src = ejs.render('' + src, scope);
-    fs.writeFileSync(dest + file, src);
+    fs.writeFileSync(DEST + file, src);
 }
 
-var scope = make_scope('templates/app-stub');
+var scope = make_scope(TMPL);
 run('/www/index.html', scope);
 run('/www/js/app.js', scope);

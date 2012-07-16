@@ -1,0 +1,36 @@
+#!/bin/sh
+
+if [ -z "$1" ]; then
+    echo "Usage: $0 <template-name> <dest>"
+    exit
+fi
+
+ROOT="`dirname $0`"
+TMPL_NAME="$1"
+TMPL="$ROOT/../templates/$TMPL_NAME"
+DEST="$2"
+
+if [ ! -d "$TMPL" ]; then
+    echo "Type not found"
+    exit 1
+fi
+
+# Create the initial skeleton
+cp -r "$ROOT/../project" "$DEST"
+
+# Recursively sync the template instances over top of each other
+function sync_template {
+    parent=`$ROOT/tmpl-parent "ROOT/../templates/$1"`
+
+    if [ -n "$parent" ]; then
+        sync_template "$parent"
+    fi
+
+    echo "Syncing $1..."
+    rsync -qavz "$ROOT/../templates/$1/project/" "$DEST"
+}
+
+sync_template "$TMPL_NAME"
+
+# Process the templates
+"$ROOT"/run-templates "$DEST" "$TMPL"
