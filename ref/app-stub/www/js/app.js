@@ -15,8 +15,7 @@ require.config({
 
 // When you write javascript in separate files, list them as
 // dependencies along with jquery
-require([], function($) {
-
+require(['jquery'], function($) {
 
     // If using Twitter Bootstrap, you need to require all the
     // components that you use, like so:
