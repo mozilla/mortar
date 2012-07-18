@@ -1,26 +1,21 @@
 
-This is a tool to generate Open Web App templates. There are many
-kinds of apps and it's difficult to provide one single template, so
-instead we offer several templates depending on the kind of app.
-However, we still want a "base" template that all our templates
-inherit from, thus this project was born to automate creating
-templates that share common project structure and functionality.
+This is a tool to generate Open Web App templates. There are many kinds of apps and it's difficult to provide one single template, so instead we offer several templates depending on the kind of app. However, we still want a "base" template that all our templates inherit from, thus this project was born to automate creating templates that share common project structure and functionality.
 
-Project Structure:
+h2. Project Structure:
 
 bin - Contains the build and testing scripts
 project - the base project
 templates - the more specific templates
 ref - reference template builds used for testing changes
 
-To use:
+h2. To use:
 
 git clone https://github.com/mozilla/mortar.git
 cd mortarific
 npm install ejs
 ./bin/build app-stub my-app-stub
 
-How does it work?
+h2. How does it work?
 
 The @project@ directory contains the base template. A few files have "https://github.com/visionmedia/ejs":EJS tags in them, which lets more specific templates inject content.
 
