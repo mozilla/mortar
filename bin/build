@@ -16,7 +16,7 @@ if [ ! -d "$TMPL" ]; then
 fi
 
 # Create the initial skeleton
-rsync -qavz "$ROOT/../project/" "$DEST"
+rsync -qavz "$ROOT/../default-project/" "$DEST"
 
 # Recursively sync the template instances over top of each other
 function sync_template {
