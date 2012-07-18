@@ -1,63 +1,56 @@
 /*jslint regexp: true */
 /*global define, console, process */
 
-define(function (require) {
-    'use strict';
+var crypto = require('crypto');
+var fs = require('fs');
+var path = require('path');
+var buildDir = 'www-built';
+var pagesDir = 'www-ghpages';
 
-    var amdify = require('amdify'),
-        q = require('q'),
-        crypto = require('crypto'),
-        fs = require('fs'),
-        path = require('path'),
-        github = require('volo/github'),
-        githubAuth = require('volo/github/auth'),
-        buildDir = 'www-built',
-        pagesDir = 'www-ghpages';
+module.exports = {
+    // Installs twitter bootstrap
+    install_twbootstrap: {
+        run: function (d, v, namedArgs, nowrap) {
+            var tempName = 'tempbootstrap',
+            jsNameRegExp = /bootstrap-(\w*)\.js$/;
 
-    return {
-        // Installs twitter bootstrap
-        install_twbootstrap: {
-            run: function (d, v, namedArgs, nowrap) {
-                var tempName = 'tempbootstrap',
-                    jsNameRegExp = /bootstrap-(\w*)\.js$/;
+            function finished_message() {
+                console.log('\nTwitter Bootstrap installed.\n' +
+                            'Add this css in your <head>:\n' +
+                            '<link rel="stylesheet"' +
+                            ' href="css/bootstrap.css">\n\n' +
+                            'If you want the responsive styles, ' +
+                            'add this also:\n' +
+                            '<link rel="stylesheet"' +
+                            ' href="css/bootstrap-responsive.css">\n');
 
-                function finished_message() {
-                    console.log('\nTwitter Bootstrap installed.\n' +
-                                'Add this css in your <head>:\n' +
-                                '<link rel="stylesheet"' +
-                                ' href="css/bootstrap.css">\n\n' +
-                                'If you want the responsive styles, ' +
-                                'add this also:\n' +
-                                '<link rel="stylesheet"' +
-                                ' href="css/bootstrap-responsive.css">\n');
-
-                    if(nowrap) {
-                        console.log('You also need to include any ' +
-                                    'js for components you use, like so:\n' +
-                                    '<script src="js/lib/bootstrap/button.js">' +
-                                    '</script>');
-                    }
-                    else {
-                        // Double-quoting the require command is
-                        // necessary so that require.js doesn't strip
-                        // it out
-                        console.log('You also need to install any ' +
-                                    'js components by just requiring ' +
-                                    'them, like so:\n' +
-                                    "require(\"bootstrap/button\");");
-                    }
+                if(nowrap) {
+                    console.log('You also need to include any ' +
+                                'js for components you use, like so:\n' +
+                                '<script src="js/lib/bootstrap/button.js">' +
+                                '</script>');
                 }
+                else {
+                    // Double-quoting the require command is
+                    // necessary so that require.js doesn't strip
+                    // it out
+                    console.log('You also need to install any ' +
+                                'js components by just requiring ' +
+                                'them, like so:\n' +
+                                "require(\"bootstrap/button\");");
+                }
+            }
 
-                v.command('create', tempName, 'twitter/bootstrap')
+            v.command('create', tempName, 'twitter/bootstrap')
                 .then(function () {
                     //Move the JS to the right location.
                     var jsFiles = v.getFilteredFileList(tempName + '/js', /\.js$/, /js\/tests\//),
-                        promises = [];
+                    promises = [];
 
                     jsFiles.forEach(function (file) {
                         //Pull off the name part from bootstrap-name.js pattern.
                         var match = jsNameRegExp.exec(file),
-                            name, destName, damd;
+                        name, destName, damd;
 
                         if (!match) {
                             return;
@@ -96,24 +89,24 @@ define(function (require) {
                     });
                 })
                 .then(d.resolve, d.reject);
+        }
+    },
+
+    install_xtags: {
+        run: function(d, v, namedArgs) {
+            var tempName = 'tempxtags',
+            jsNameRegExp = /\/([^\/]*)\.js$/;
+
+            function finished_message() {
+                console.log('x-tags is installed.\n' +
+                            'You need to include the js and css for ' +
+                            'each component you want to use, like so:\n\n' +
+                            '<link rel="stylesheet"' +
+                            ' href="css/lib/x-tag/accordion.css">\n' +
+                            '<script src="js/lib/x-tag/accordion.js></script>');
             }
-        },
 
-        install_xtags: {
-            run: function(d, v, namedArgs) {
-                var tempName = 'tempxtags',
-                    jsNameRegExp = /\/([^\/]*)\.js$/;
-
-                function finished_message() {
-                    console.log('x-tags is installed.\n' +
-                                'You need to include the js and css for ' +
-                                'each component you want to use, like so:\n\n' +
-                               '<link rel="stylesheet"' +
-                               ' href="css/lib/x-tag/accordion.css">\n' +
-                               '<script src="js/lib/x-tag/accordion.js></script>');
-                }
-                
-                v.command('create', tempName, 'csuwldcat/x-tag/gh-pages')
+            v.command('create', tempName, 'csuwldcat/x-tag/gh-pages')
                 .then(function() {
                     //Move the JS to the right location.
                     v.copyFile(tempName + '/x-tag.js', 'www/js/lib/x-tag.js');
@@ -132,63 +125,63 @@ define(function (require) {
                         v.copyFile(file, path);
                     });
 
-                   //Copy the css
-                   var files = v.getFilteredFileList(tempName + '/elements',
-                                                     /\.css$/);
-                   var basenameRegExp = /\/([^\/]*.css)/;
+                    //Copy the css
+                    var files = v.getFilteredFileList(tempName + '/elements',
+                                                      /\.css$/);
+                    var basenameRegExp = /\/([^\/]*.css)/;
 
-                   v.mkdir('www/css/lib/x-tag');
-                   files.forEach(function(file) {
-                       var matches = file.match(basenameRegExp);
-                       if(!matches) {
-                           return;
-                       }
+                    v.mkdir('www/css/lib/x-tag');
+                    files.forEach(function(file) {
+                        var matches = file.match(basenameRegExp);
+                        if(!matches) {
+                            return;
+                        }
 
-                       v.copyFile(file, 'www/css/lib/x-tag/' + matches[1]);
-                   });
+                        v.copyFile(file, 'www/css/lib/x-tag/' + matches[1]);
+                    });
 
-                   v.rm(tempName);
+                    v.rm(tempName);
 
-                   finished_message();
-               })
-               .then(d.resolve, d.reject);
-            }
+                    finished_message();
+                })
+                .then(d.resolve, d.reject);
+        }
+    },
+
+    //Builds the JS and CSS into one file each. If you want to do
+    //dynamic loading of scripts, pass -dynamic to the build, and
+    //require.js will be used to load scripts.
+    build: {
+        flags: {
+            //Does not print the build output.
+            'q': 'quiet',
+            //Uses dynamic loading via require.js instead of building
+            //all the modules in with almond.
+            'dynamic': 'dynamic'
         },
 
-        //Builds the JS and CSS into one file each. If you want to do
-        //dynamic loading of scripts, pass -dynamic to the build, and
-        //require.js will be used to load scripts.
-        build: {
-            flags: {
-                //Does not print the build output.
-                'q': 'quiet',
-                //Uses dynamic loading via require.js instead of building
-                //all the modules in with almond.
-                'dynamic': 'dynamic'
-            },
+        run: function (d, v, namedArgs) {
+            q.call(function () {
+                //Remove the old dir
+                v.rm(buildDir);
 
-            run: function (d, v, namedArgs) {
-                q.call(function () {
-                    //Remove the old dir
-                    v.rm(buildDir);
+                if (!namedArgs.dynamic) {
+                    //Copy the directory for output.
+                    v.copyDir('www', buildDir);
 
-                    if (!namedArgs.dynamic) {
-                        //Copy the directory for output.
-                        v.copyDir('www', buildDir);
+                    //Remove the js dir from the built area, will be
+                    //replaced by an optimized app.js
+                    v.rm(buildDir + '/js');
 
-                        //Remove the js dir from the built area, will be
-                        //replaced by an optimized app.js
-                        v.rm(buildDir + '/js');
-
-                        //Do the CSS optimization
-                        return v.spawn('node', ['tools/r.js', '-o',
-                                                'cssIn=www/css/app.css',
-                                                'out=' + buildDir + '/css/app.css'], {
-                            useConsole: !namedArgs.quiet
-                        });
-                    }
-                    return undefined;
-                })
+                    //Do the CSS optimization
+                    return v.spawn('node', ['tools/r.js', '-o',
+                                            'cssIn=www/css/app.css',
+                                            'out=' + buildDir + '/css/app.css'], {
+                                                useConsole: !namedArgs.quiet
+                                            });
+                }
+                return undefined;
+            })
                 .then(function () {
                     //JS go time
                     var optimize = namedArgs.optimize || 'uglify';
@@ -196,26 +189,26 @@ define(function (require) {
                     if (namedArgs.dynamic) {
                         //Still use require.js to load the app.js file.
                         return v.spawn('node', ['tools/r.js', '-o',
-                                        'appDir=www',
-                                        'baseUrl=js/lib',
-                                        'paths.app=../app',
-                                        'name=app',
-                                        'dir=' + buildDir,
-                                        'optimize=' + optimize], {
-                            useConsole: !namedArgs.quiet
-                        });
+                                                'appDir=www',
+                                                'baseUrl=js/lib',
+                                                'paths.app=../app',
+                                                'name=app',
+                                                'dir=' + buildDir,
+                                                'optimize=' + optimize], {
+                                                    useConsole: !namedArgs.quiet
+                                                });
                     } else {
                         //The all-in-one option.
                         return v.spawn('node', ['tools/r.js', '-o',
-                                        'baseUrl=www/js/lib',
-                                        'paths.app=../app',
-                                        'paths.almond=../../../tools/almond',
-                                        'name=almond',
-                                        'include=app',
-                                        'out=' + buildDir + '/js/app.js',
-                                        'optimize=' + optimize], {
-                            useConsole: !namedArgs.quiet
-                        });
+                                                'baseUrl=www/js/lib',
+                                                'paths.app=../app',
+                                                'paths.almond=../../../tools/almond',
+                                                'name=almond',
+                                                'include=app',
+                                                'out=' + buildDir + '/js/app.js',
+                                                'optimize=' + optimize], {
+                                                    useConsole: !namedArgs.quiet
+                                                });
                     }
                 })
                 .then(function (buildOutput) {
@@ -231,13 +224,13 @@ define(function (require) {
                     //to update the script tag to just load app.js instead.
                     if (!namedArgs.dynamic) {
                         var indexName = buildDir + '/index.html',
-                            contents = v.read(indexName),
-                            scriptRegExp = /(<script[^>]+data-main="[^"]+"[^>]+)(src="[^"]+")([^>]*>\s*<\/script>)/;
+                        contents = v.read(indexName),
+                        scriptRegExp = /(<script[^>]+data-main="[^"]+"[^>]+)(src="[^"]+")([^>]*>\s*<\/script>)/;
 
                         contents = contents.replace(scriptRegExp,
-                            function (match, pre, script, post) {
-                            return pre + 'src="js/app.js"' + post;
-                        });
+                                                    function (match, pre, script, post) {
+                                                        return pre + 'src="js/app.js"' + post;
+                                                    });
 
                         v.write(indexName, contents);
                     }
@@ -246,92 +239,92 @@ define(function (require) {
                 .then(function (buildOutput) {
                     d.resolve(buildOutput);
                 }, d.reject);
+        }
+    },
+
+    //Generates an SHA1 digest that represents the contents of the
+    //a directory. Call it like so: "volo digest dir=path/to/directory"
+    digest: {
+        validate: function (namedArgs) {
+            var dir = namedArgs.dir;
+            if (!dir) {
+                return new Error('Please specify a target directory for ' +
+                                 'the digest');
             }
+            if (!path.existsSync(dir)) {
+                return new Error('Target directory for digest does ' +
+                                 'not exist: ' + dir);
+            }
+            return undefined;
         },
 
-        //Generates an SHA1 digest that represents the contents of the
-        //a directory. Call it like so: "volo digest dir=path/to/directory"
-        digest: {
-            validate: function (namedArgs) {
-                var dir = namedArgs.dir;
-                if (!dir) {
-                    return new Error('Please specify a target directory for ' +
-                                     'the digest');
-                }
-                if (!path.existsSync(dir)) {
-                    return new Error('Target directory for digest does ' +
-                                     'not exist: ' + dir);
-                }
-                return undefined;
-            },
+        run: function (d, v, namedArgs) {
+            var dir = namedArgs.dir,
+            files = v.getFilteredFileList(dir),
+            digests = [],
+            i = 0;
 
-            run: function (d, v, namedArgs) {
-                var dir = namedArgs.dir,
-                    files = v.getFilteredFileList(dir),
-                    digests = [],
-                    i = 0;
+            function getDigest(fileName) {
+                var shaSum = crypto.createHash('sha1'),
+                d = q.defer(),
+                stream = fs.ReadStream(fileName);
 
-                function getDigest(fileName) {
-                    var shaSum = crypto.createHash('sha1'),
-                        d = q.defer(),
-                        stream = fs.ReadStream(fileName);
+                stream.on('data', function(data) {
+                    shaSum.update(data);
+                });
 
-                    stream.on('data', function(data) {
-                        shaSum.update(data);
-                    });
+                stream.on('end', function() {
+                    d.resolve(shaSum.digest('base64'));
+                });
 
-                    stream.on('end', function() {
+                return d.promise;
+            }
+
+            function digestFile(fileName) {
+                getDigest(fileName).then(function (digest) {
+                    var shaSum;
+
+                    digests[i] = digest;
+                    i += 1;
+
+                    if (i < files.length) {
+                        digestFile(files[i]);
+                    } else {
+                        //All done, now generate the final digest,
+                        //using the combination of the other digests
+                        shaSum = crypto.createHash('sha1');
+                        shaSum.update(digests.join(','));
                         d.resolve(shaSum.digest('base64'));
-                    });
-
-                    return d.promise;
-                }
-
-                function digestFile(fileName) {
-                    getDigest(fileName).then(function (digest) {
-                        var shaSum;
-
-                        digests[i] = digest;
-                        i += 1;
-
-                        if (i < files.length) {
-                            digestFile(files[i]);
-                        } else {
-                            //All done, now generate the final digest,
-                            //using the combination of the other digests
-                            shaSum = crypto.createHash('sha1');
-                            shaSum.update(digests.join(','));
-                            d.resolve(shaSum.digest('base64'));
-                        }
-                    });
-                }
-
-                digestFile(files[0]);
+                    }
+                });
             }
-        },
 
-        ghdeploy: require('volo-ghdeploy')('www-built', 'www-ghdeploy'),
+            digestFile(files[0]);
+        }
+    },
 
-        //Runs less on the .less files in tools/less to generate the CSS files.
-        less: function (d, v, namedArgs) {
-            q.all([
-                v.exec('node tools/oneless.js tools/less/bootstrap.less > www/css/bootstrap.css'),
-                v.exec('node tools/oneless.js tools/less/responsive.less > www/css/bootstrap-responsive.css')
-            ])
+    ghdeploy: require('volo-ghdeploy')('www-built', 'www-ghdeploy'),
+
+    //Runs less on the .less files in tools/less to generate the CSS files.
+    less: function (d, v, namedArgs) {
+        q.all([
+            v.exec('node tools/oneless.js tools/less/bootstrap.less > www/css/bootstrap.css'),
+            v.exec('node tools/oneless.js tools/less/responsive.less > www/css/bootstrap-responsive.css')
+        ])
             .then(function () {
                 d.resolve();
             })
             .fail(d.reject);
-        },
+    },
 
-        appcache: function (d, v, namedArgs) {
-            var hasBuilt = v.exists(buildDir);
+    appcache: function (d, v, namedArgs) {
+        var hasBuilt = v.exists(buildDir);
 
-            v.command('build')
+        v.command('build')
             .then(function () {
                 var manifest = v.read('tools/manifest.appcache'),
-                    master = v.read(buildDir + '/index.html'),
-                    appFiles;
+                master = v.read(buildDir + '/index.html'),
+                appFiles;
 
                 appFiles = v.getFilteredFileList(buildDir);
                 appFiles = appFiles.map(function (file) {
@@ -341,18 +334,18 @@ define(function (require) {
                 });
 
                 master = master
-                        .replace(/<html\s?/, '<html manifest="manifest.appcache" ')
-                        .replace(/manifest\.appcache"\s>/, 'manifest.appcache">');
+                    .replace(/<html\s?/, '<html manifest="manifest.appcache" ')
+                    .replace(/manifest\.appcache"\s>/, 'manifest.appcache">');
                 v.write(buildDir + '/index.html', master);
 
                 return v.command('digest', 'dir=' + buildDir)
-                .then(function (stamp) {
-                    manifest = v.template(manifest, {
-                        files : appFiles.join('\n'),
-                        stamp : stamp
+                    .then(function (stamp) {
+                        manifest = v.template(manifest, {
+                            files : appFiles.join('\n'),
+                            stamp : stamp
+                        });
+                        v.write(buildDir + '/manifest.appcache', manifest);
                     });
-                    v.write(buildDir + '/manifest.appcache', manifest);
-                });
             })
             .then(function () {
                 //Inform the user of the right mime type, but only do it if
@@ -361,6 +354,32 @@ define(function (require) {
                           '.appcache files to be: text/cache-manifest');
             })
             .fail(d.reject);
+    },
+
+    serve: function(d, v, namedArgs) {
+        try {
+            var connect = require('connect');
         }
-    };
-});
+        catch(e) {
+            console.log('To use the `serve` command, you must ' +
+                        'install the connect module:\n\n' + 
+                        'npm install connect');
+            return;
+        }
+
+        var port = 8008;
+        var base = path.join(process.cwd(), 'www');
+        var middleware = [
+            connect.static(base),
+            connect.directory(base)
+        ];
+
+        connect.logger.format("OpenWebApp",
+                              "[D] server :method :url :status " +
+                              ":res[content-length] - :response-time ms");
+        middleware.unshift(connect.logger("OpenWebApp"));
+
+        console.log("starting web server on port " + port);
+        connect.apply(null, middleware).listen(port);
+    }
+};
