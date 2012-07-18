@@ -8,6 +8,12 @@ project - the base project
 templates - the more specific templates
 ref - reference template builds used for testing changes
 
+h2. Available Templates:
+
+_All templates come with volo, require.js, marketplace js lib, and a few other things._
+
+app-stub: A blank canvas for creating apps (comes with jquery) "download":https://github.com/mozilla/mortar/blob/master/builds/app-stub.zip?raw=true
+
 h2. To use:
 
 git clone https://github.com/mozilla/mortar.git
