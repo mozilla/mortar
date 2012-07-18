@@ -1,14 +1,32 @@
 
-Don't take this too seriously yet. This is a template generation tool to make Open Web App templates.
+This is a tool to generate Open Web App templates. There are many
+kinds of apps and it's difficult to provide one single template, so
+instead we offer several templates depending on the kind of app.
+However, we still want a "base" template that all our templates
+inherit from, thus this project was born to automate creating
+templates that share common project structure and functionality.
+
+Project Structure:
+
+bin - Contains the build and testing scripts
+project - the base project
+templates - the more specific templates
+ref - reference template builds used for testing changes
 
 To use:
 
-git clone https://github.com/jlongster/mortarific.git
+git clone https://github.com/mozilla/mortar.git
 cd mortarific
 npm install ejs
 ./bin/build app-stub my-app-stub
 
-Blocks that you can override:
+How does it work?
+
+The @project@ directory contains the base template. A few files have "https://github.com/visionmedia/ejs":EJS tags in them, which lets more specific templates inject content.
+
+The more specific templates in @templates@ have a bunch of files which correspond to the EJS tags. The content in each file is injected to the corresponding tag. For example, the contents in "head.html" is injecting into the @head@ tag in www/index.html.
+
+Files where can specific content:
 
 head.html
 footer.html
@@ -16,4 +34,8 @@ js_global.js
 js_requires.js
 js_init.js
 
-You can find these in @project/www/index.html@ and @project/www/js/app.js@.
+These will override tags defined in @project/www/index.html@ and @project/www/js/app.js@.
+
+Additionally, the more specific templates can have a "project" directory which will be @rsync@-ed over the project so that you can add/replace files.
+
+The more specific templates can also specific a "project.json" file for advanced usage. The only supported attribute is "inherits" which specifies another template name. Mortar will sync in that template before syncing the current one, letting you only add bits and pieces to current templates.
