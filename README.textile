@@ -1,6 +1,13 @@
 
 Don't take this too seriously yet. This is a template generation tool to make Open Web App templates.
 
+To use:
+
+git clone https://github.com/jlongster/mortarific.git
+cd mortarific
+npm install ejs
+./bin/build app-stub my-app-stub
+
 Blocks that you can override:
 
 head.html
