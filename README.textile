@@ -33,8 +33,9 @@ footer.html
 js_global.js
 js_requires.js
 js_init.js
+css.css
 
-These will override tags defined in @project/www/index.html@ and @project/www/js/app.js@.
+These will override tags defined in @project/www/index.html@, @project/www/js/app.js@, and @project/www/css/app.css@.
 
 Additionally, the more specific templates can have a "project" directory which will be @rsync@-ed over the project so that you can add/replace files.
 
