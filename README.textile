@@ -31,7 +31,6 @@ Files where can specific content:
 head.html
 footer.html
 js_global.js
-js_requires.js
 js_init.js
 css.css
 

@@ -20,7 +20,6 @@ var blocks = {
     head: 'head.html',
     footer: 'footer.html',
     js_global: 'js_global.js',
-    js_requires: 'js_requires.js',
     js_init: 'js_init.js',
     css: 'css.css'
 };

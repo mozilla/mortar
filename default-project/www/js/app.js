@@ -8,7 +8,7 @@ var global = this;
 
 // When you write javascript in separate files, list them as
 // dependencies along with jquery
-require(<%- js_requires %>
+define("app", function(require) {
 
 <%- js_init %>
 
