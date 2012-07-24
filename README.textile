@@ -1,4 +1,3 @@
-
 This is a tool to generate Open Web App templates. There are many kinds of apps and it's difficult to provide one single template, so instead we offer several templates depending on the kind of app. However, we still want a "base" template that all our templates inherit from, thus this project was born to automate creating templates that share common project structure and functionality.
 
 h2. Project Structure:
@@ -17,7 +16,7 @@ app-stub: A blank canvas for creating apps (comes with jquery) "download":https:
 h2. To use:
 
 git clone https://github.com/mozilla/mortar.git
-cd mortarific
+cd mortar
 npm install ejs
 ./bin/build app-stub my-app-stub
 
