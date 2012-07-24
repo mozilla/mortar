@@ -21,7 +21,8 @@ var blocks = {
     footer: 'footer.html',
     js_global: 'js_global.js',
     js_requires: 'js_requires.js',
-    js_init: 'js_init.js'
+    js_init: 'js_init.js',
+    css: 'css.css'
 };
 
 var defaults = {
@@ -75,3 +76,4 @@ function run(file, scope) {
 var scope = make_scope(TMPL);
 run('/www/index.html', scope);
 run('/www/js/app.js', scope);
+run('/www/css/app.css', scope);

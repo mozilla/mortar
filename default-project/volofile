@@ -221,6 +221,13 @@ module.exports = {
                         }
                     });
 
+                    var modernizr = '/js/lib/modernizr-2.5.3.min.js';
+                    if(v.exists('www' + modernizr)) {
+                        //Copy the modernizr js file since we still need it around
+                        v.mkdir(buildDir + '/js/lib');
+                        v.copyFile('www' + modernizr, buildDir + modernizr);
+                    }
+
                     //If almond is in use, it is built into app.js, so need
                     //to update the script tag to just load app.js instead.
                     if (!namedArgs.dynamic) {
@@ -369,7 +376,7 @@ module.exports = {
         }
 
         var port = 8008;
-        var base = path.join(process.cwd(), 'www');
+        var base = path.join(process.cwd(), namedArgs.base || 'www');
         var middleware = [
             connect.static(base),
             connect.directory(base)
