@@ -4,7 +4,8 @@
   },
   "volo": {
     "dependencies": {
-      "jquery": "github:jquery/jquery/1.7.2"
+      "jquery": "github:jquery/jquery/1.7.2",
+      "install": "github:wavysandbox/install/master"
     }
   }
 }

@@ -267,6 +267,7 @@ module.exports = {
         },
 
         run: function (d, v, namedArgs) {
+            var q = v.require('q');
             var dir = namedArgs.dir,
             files = v.getFilteredFileList(dir),
             digests = [],
@@ -326,6 +327,7 @@ module.exports = {
     },
 
     appcache: function (d, v, namedArgs) {
+        var q = v.require('q');
         var hasBuilt = v.exists(buildDir);
 
         v.command('build')

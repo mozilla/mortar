@@ -21,6 +21,7 @@ var blocks = {
     footer: 'footer.html',
     js_global: 'js_global.js',
     js_init: 'js_init.js',
+    js_require_cfg: 'js_require_cfg.js',
     css: 'css.css'
 };
 
