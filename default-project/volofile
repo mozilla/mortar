@@ -7,6 +7,16 @@ var path = require('path');
 var buildDir = 'www-built';
 var pagesDir = 'www-ghpages';
 
+try {
+    var ghdeploy = require('volo-ghdeploy')('www-built', 'www-ghdeploy');
+}
+catch(e) {
+    console.log("You don't have the volo-ghdeploy command installed.\n" +
+                'You must install this first:\n\n' +
+                'npm install -g volo-ghdeploy');
+    process.exit(1);
+}
+
 module.exports = {
     // Installs twitter bootstrap
     install_twbootstrap: {
@@ -312,7 +322,7 @@ module.exports = {
         }
     },
 
-    ghdeploy: require('volo-ghdeploy')('www-built', 'www-ghdeploy'),
+    ghdeploy: ghdeploy,
 
     //Runs less on the .less files in tools/less to generate the CSS files.
     less: function (d, v, namedArgs) {
