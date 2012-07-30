@@ -399,7 +399,8 @@ module.exports = {
                               ":res[content-length] - :response-time ms");
         middleware.unshift(connect.logger("OpenWebApp"));
 
-        console.log("starting web server on port " + port);
+        console.log('web server started, site available at ' + 
+                    'http://localhost:' + port + '/');
         connect.apply(null, middleware).listen(port);
     }
 };
