@@ -17,6 +17,10 @@
          will be inlined when building. -->
     <link rel="stylesheet" href="css/app.css">
 
+    <!-- If this is also installable in Chrome, provide the store link
+         (see the "Self-hosted apps" section below) -->
+    <!-- <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/itemID"> -->
+
     <!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
 
     <!-- All JavaScript at the bottom, except this Modernizr build.
@@ -25,9 +29,14 @@
     <script src="js/lib/modernizr-2.5.3.min.js"></script>    
   </head>
   <body>
-    <!-- These messages can appear when the user tries to install the
-         app. You can customize the how it looks with CSS and how it
-         behaves (see app.js) -->
+    <!-- Self-hosted apps:
+         install.js (https://github.com/wavysandbox/install) provides
+         an install API that works with iOS, Chrome, and Firefox.
+         We provide an installation button already hooked up to this.
+
+         Use this for self-hosted apps (not in a marketplace) or for
+         test installing your app. -->
+    
     <div class="install-error"></div>
     <div class="install-ios-msg">
       To install, press the forward arrow in Safari and touch "Add to
@@ -35,9 +44,11 @@
     </div>
 
     <!-- Put this install button somewhere on the page and the user
-         will be able to click it to install your app -->
-    <!-- <button class="install-btn">Install</button> -->
-    
+         will be able to click it to install your app. You don't need 
+         this if your app will be installed from a marketplace. -->
+    <button class="install-btn">Install</button>    
+
+
 
     <!-- Add your site or application content here -->
 
