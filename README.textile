@@ -17,7 +17,7 @@ h2. To use:
 
 git clone https://github.com/mozilla/mortar.git
 cd mortar
-npm install ejs
+npm install
 ./bin/build app-stub my-app-stub
 
 h2. How does it work?
