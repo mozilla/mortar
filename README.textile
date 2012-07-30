@@ -13,7 +13,17 @@ _All templates come with volo, require.js, marketplace js lib, and a few other t
 
 app-stub: A blank canvas for creating apps (comes with jquery) "download":https://github.com/mozilla/mortar/blob/master/builds/app-stub.zip?raw=true
 
-h2. To use:
+* Borrows a lot of tricks from "html5boilerplate":http://html5boilerplate.com/
+* Comes with "jQuery":http://jquery.com/, "Twitter Bootstrap":http://twitter.github.com/bootstrap/, and "x-tag":https://github.com/mozilla/x-tag
+* Blank template for creating apps with a user interface
+
+h2. Back-end server
+
+These are just front-end templates, but you'll most likely need to set up a server for your app. I highly recommend the "server-configs":https://github.com/h5bp/server-configs project from the h5b crew which provides really helpful templates for server configurations. That should help you get set up quickly.
+
+The "Apache .htaccess config":https://github.com/h5bp/html5-boilerplate/blob/master/.htaccess is not part of the above project, but part of the html5boilerplace project itsel.
+
+h2. To generate templates:
 
 git clone https://github.com/mozilla/mortar.git
 cd mortar
