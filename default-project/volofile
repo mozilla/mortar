@@ -102,62 +102,6 @@ module.exports = {
         }
     },
 
-    install_xtags: {
-        run: function(d, v, namedArgs) {
-            var tempName = 'tempxtags',
-            jsNameRegExp = /\/([^\/]*)\.js$/;
-
-            function finished_message() {
-                console.log('x-tags is installed.\n' +
-                            'You need to include the js and css for ' +
-                            'each component you want to use, like so:\n\n' +
-                            '<link rel="stylesheet"' +
-                            ' href="css/lib/x-tag/accordion.css">\n' +
-                            '<script src="js/lib/x-tag/accordion.js></script>');
-            }
-
-            v.command('create', tempName, 'csuwldcat/x-tag/gh-pages')
-                .then(function() {
-                    //Move the JS to the right location.
-                    v.copyFile(tempName + '/x-tag.js', 'www/js/lib/x-tag.js');
-
-                    var jsFiles = v.getFilteredFileList(tempName + '/elements',
-                                                        /\.js$/);
-                    v.mkdir('www/js/lib/x-tag');
-                    jsFiles.forEach(function(file) {
-                        var matches = file.match(jsNameRegExp);
-                        if(!matches) {
-                            return;
-                        }
-
-                        var damd = q.defer();
-                        var path = 'www/js/lib/x-tag/' + matches[1] + '.js';
-                        v.copyFile(file, path);
-                    });
-
-                    //Copy the css
-                    var files = v.getFilteredFileList(tempName + '/elements',
-                                                      /\.css$/);
-                    var basenameRegExp = /\/([^\/]*.css)/;
-
-                    v.mkdir('www/css/lib/x-tag');
-                    files.forEach(function(file) {
-                        var matches = file.match(basenameRegExp);
-                        if(!matches) {
-                            return;
-                        }
-
-                        v.copyFile(file, 'www/css/lib/x-tag/' + matches[1]);
-                    });
-
-                    v.rm(tempName);
-
-                    finished_message();
-                })
-                .then(d.resolve, d.reject);
-        }
-    },
-
     //Builds the JS and CSS into one file each. If you want to do
     //dynamic loading of scripts, pass -dynamic to the build, and
     //require.js will be used to load scripts.
