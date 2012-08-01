@@ -93,7 +93,7 @@ module.exports = {
                     v.copyDir(tempName + '/less', 'tools/less');
 
                     //Compile the CSS.
-                    return v.command('less').then(function () {
+                    return v.command('bootstrap_less').then(function () {
                         v.rm(tempName);
                         finished_message();
                     });
@@ -108,100 +108,11 @@ module.exports = {
     build: {
         flags: {
             //Does not print the build output.
-            'q': 'quiet',
-            //Uses dynamic loading via require.js instead of building
-            //all the modules in with almond.
-            'dynamic': 'dynamic'
+            'q': 'quiet'
         },
 
-        run: function (d, v, namedArgs) {
-            var q = v.require('q');
-            q.call(function () {
-                //Remove the old dir
-                v.rm(buildDir);
-
-                if (!namedArgs.dynamic) {
-                    //Copy the directory for output.
-                    v.copyDir('www', buildDir);
-
-                    //Remove the js dir from the built area, will be
-                    //replaced by an optimized app.js
-                    v.rm(buildDir + '/js');
-
-                    //Do the CSS optimization
-                    return v.spawn('node', ['tools/r.js', '-o',
-                                            'cssIn=www/css/app.css',
-                                            'out=' + buildDir + '/css/app.css'], {
-                                                useConsole: !namedArgs.quiet
-                                            });
-                }
-                return undefined;
-            })
-                .then(function () {
-                    //JS go time
-                    var optimize = namedArgs.optimize || 'uglify';
-
-                    if (namedArgs.dynamic) {
-                        //Still use require.js to load the app.js file.
-                        return v.spawn('node', ['tools/r.js', '-o',
-                                                'appDir=www',
-                                                'baseUrl=js/lib',
-                                                'paths.app=../app',
-                                                'name=app',
-                                                'dir=' + buildDir,
-                                                'optimize=' + optimize], {
-                                                    useConsole: !namedArgs.quiet
-                                                });
-                    } else {
-                        //The all-in-one option.
-                        return v.spawn('node', ['tools/r.js', '-o',
-                                                'baseUrl=www/js/lib',
-                                                'paths.app=../app',
-                                                'paths.almond=../../../tools/almond',
-                                                'name=almond',
-                                                'include=app',
-                                                'out=' + buildDir + '/js/app.js',
-                                                'optimize=' + optimize], {
-                                                    useConsole: !namedArgs.quiet
-                                                });
-                    }
-                })
-                .then(function (buildOutput) {
-                    //Remove all the CSS except for the app.css, since it
-                    //inlines all the other ones.
-                    v.getFilteredFileList(buildDir + '/css').forEach(function (path) {
-                        if (!/app\.css$/.test(path)) {
-                            v.rm(path);
-                        }
-                    });
-
-                    var modernizr = '/js/lib/modernizr-2.5.3.min.js';
-                    if(v.exists('www' + modernizr)) {
-                        //Copy the modernizr js file since we still need it around
-                        v.mkdir(buildDir + '/js/lib');
-                        v.copyFile('www' + modernizr, buildDir + modernizr);
-                    }
-
-                    //If almond is in use, it is built into app.js, so need
-                    //to update the script tag to just load app.js instead.
-                    if (!namedArgs.dynamic) {
-                        var indexName = buildDir + '/index.html',
-                        contents = v.read(indexName),
-                        scriptRegExp = /(<script[^>]+data-main="[^"]+"[^>]+)(src="[^"]+")([^>]*>\s*<\/script>)/;
-
-                        contents = contents.replace(scriptRegExp,
-                                                    function (match, pre, script, post) {
-                                                        return pre + 'src="js/app.js"' + post;
-                                                    });
-
-                        v.write(indexName, contents);
-                    }
-                    return buildOutput;
-                })
-                .then(function (buildOutput) {
-                    d.resolve(buildOutput);
-                }, d.reject);
-        }
+        depends: ['less'],
+        run: 'node tools/r.js -o tools/build.js'
     },
 
     //Generates an SHA1 digest that represents the contents of the
@@ -266,10 +177,28 @@ module.exports = {
         }
     },
 
+    //Compile all the less files into css
+    less: function(d, v, namedArgs) {
+        var q = v.require('q');
+        var files = v.getFilteredFileList('www/css');
+
+        return q.all([
+            files.map(function (path) {
+                if (/\.less$/.test(path)) {
+                    var dest = path.replace(/\.less$/, '.css');
+                    return v.exec(['node tools/oneless.js ' + path + ' > ' + dest]);
+                }
+            })
+        ])
+            .then(function() {
+                d.resolve();
+            });
+    },
+
     ghdeploy: ghdeploy,
 
     //Runs less on the .less files in tools/less to generate the CSS files.
-    less: function (d, v, namedArgs) {
+    bootstrap_less: function (d, v, namedArgs) {
         q.all([
             v.exec('node tools/oneless.js tools/less/bootstrap.less > www/css/bootstrap.css'),
             v.exec('node tools/oneless.js tools/less/responsive.less > www/css/bootstrap-responsive.css')
@@ -331,11 +260,14 @@ module.exports = {
             return;
         }
 
+        var lessMiddleware = require('less-middleware');
+
         var port = 8008;
         var base = path.join(process.cwd(), namedArgs.base || 'www');
         var middleware = [
+            lessMiddleware({ src: base }),
             connect.static(base),
-            connect.directory(base)
+            connect.directory(base),
         ];
 
         connect.logger.format("OpenWebApp",
@@ -343,8 +275,8 @@ module.exports = {
                               ":res[content-length] - :response-time ms");
         middleware.unshift(connect.logger("OpenWebApp"));
 
-        console.log('web server started, site available at ' + 
-                    'http://localhost:' + port + '/');
+        console.log("starting web server on port " + port);
         connect.apply(null, middleware).listen(port);
+
     }
 };
