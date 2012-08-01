@@ -167,16 +167,8 @@ module.exports = {
             'q': 'quiet'
         },
 
-        run: function (d, v, namedArgs) {
-            v.command('less')
-                .then(function () {
-                    return v.shell('node tools/r.js -o tools/build.js',
-                                   { useConsole: !namedArgs.quiet });
-                })
-                .then(function (buildOutput) {
-                    d.resolve(buildOutput);
-                }, d.reject);
-        }
+        depends: ['less'],
+        run: 'node tools/r.js -o tools/build.js'
     },
 
     //Generates an SHA1 digest that represents the contents of the
