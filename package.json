@@ -1,7 +1,0 @@
-{
-  "name": "mortar",
-  "version": "0.0.1",
-  "dependencies": {
-    "ejs": "0.7.2"
-  }
-}
