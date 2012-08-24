@@ -7,6 +7,18 @@ require.config({
 <%- js_require_cfg %>
 });
 
+// Include the in-app payments API, and if it fails to load handle it
+// gracefully.
+// https://developer.mozilla.org/en/Apps/In-app_payments
+require(['https://marketplace.cdn.mozilla.net/mozmarket.js'],
+        function() {},
+        function(err) {
+            window.mozmarket = window.mozmarket || {};
+            window.mozmarket.buy = function() {
+                alert('The in-app purchasing is currently unavailable.');
+            };
+        });
+
 <%- js_global %>
 
 // When you write javascript in separate files, list them as
@@ -60,15 +72,3 @@ define("app", function(require) {
     });
 
 });
-
-// Include the in-app payments API, and if it fails to load handle it
-// gracefully.
-// https://developer.mozilla.org/en/Apps/In-app_payments
-require(['https://marketplace-cdn.addons.mozilla.net/mozmarket.js'],
-        function() {},
-        function(err) {
-            window.mozmarket = window.mozmarket || {};
-            window.mozmarket.buy = function() {
-                alert('The in-app purchasing is currently unavailable.');
-            };
-        });
