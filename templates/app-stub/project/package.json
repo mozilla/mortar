@@ -1,0 +1,9 @@
+{
+  "name": "mortar",
+  "version": "0.0.1",
+  "dependencies": {
+    "volo-ghdeploy": "0.0.3",
+    "connect": "~2.4.4",
+    "less-middleware": "~0.1.5"
+  }
+}
