@@ -1,0 +1,6 @@
+[submodule "mortar-app-stub"]
+	path = mortar-app-stub
+	url = git://github.com/mozilla/mortar-app-stub.git
+[submodule "mortar-list-detail"]
+	path = mortar-list-detail
+	url = git://github.com/mozilla/mortar-list-detail.git
