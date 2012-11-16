@@ -3,6 +3,7 @@
 
 This is a meta-repo that tracks all the templates that Mozilla is offering for Open Web Apps.
 
-The base template is `mortar-app-stub`. It is basically a blank template that comes only with the basic things required to get started.
+The following templates are available:
 
-We are building out several layouts so that you can quickly get writing more specific apps, such as a list-detail layout.
+`mortar-app-stub`: a blank template that comes only with the basic things required to get started
+`mortar-list-detail`: comes with a layouts library and sets up a list-detail layout for you
