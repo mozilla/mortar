@@ -7,3 +7,6 @@
 [submodule "mortar-game-stub"]
 	path = mortar-game-stub
 	url = git@github.com:mozilla/mortar-game-stub.git
+[submodule "mortar-tab-view"]
+	path = mortar-tab-view
+	url = git@github.com:mozilla/mortar-tab-view.git

@@ -5,7 +5,6 @@ This is a meta-repo that tracks all the templates that Mozilla is offering for O
 The following templates are available:
 
 * [`mortar-app-stub`](https://github.com/mozilla/mortar-app-stub): a blank template that comes only with the basic things required to get started
-* [`mortar-list-detail`](https://github.com/mozilla/mortar-list-detail): comes with a layouts library and sets up a list-detail layout for you
 * [`mortar-game-stub`](https://github.com/mozilla/mortar-game-stub): a minimal web game template that handles input and a render loop
-
-Another template currently in beta status is [`mortar-tab-view`](https://github.com/jlongster/mortar-tab-view), which is similar to `mortar-list-detail` but the initial layout has tabs at the button which let you switch between screens. It will move into this repo once tested more.
+* [`mortar-list-detail`](https://github.com/mozilla/mortar-list-detail): comes with a layouts library and sets up a list-detail layout for you
+* [`mortar-tab-view`](https://github.com/mozilla/mortar-tab-view), which is similar to `mortar-list-detail` but the initial layout has tabs at the button which let you switch between screens.
