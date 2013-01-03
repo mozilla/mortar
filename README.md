@@ -15,8 +15,8 @@ You can view more documentation [here](https://developer.mozilla.org/en-US/docs/
 
 You can simply git clone any of the above templates, or use [volo](http://volojs.org/) to create an app from one of them. If you have node installed, simply run `npm install -g volo` to get volo. Examples:
 
-* Using git: `git clone git://github.com/mozilla/mortar-tab-view.git myapp`
-* Using volo: `volo create myapp mozilla/mortar-tab-view`
+* Using git: `git clone <template-github-url> myapp`
+* Using volo: `volo create myapp mozilla/<template-name>`
 
 Each template has documentation in its README specific to what it provides, but there are a few things that all of them provide.
 
