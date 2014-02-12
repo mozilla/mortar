@@ -9,6 +9,10 @@ The following templates are available:
 * [`mortar-list-detail`](https://github.com/mozilla/mortar-list-detail): comes with a layouts library and sets up a list-detail layout for you
 * [`mortar-tab-view`](https://github.com/mozilla/mortar-tab-view), which is similar to `mortar-list-detail` but the initial layout has tabs at the button which let you switch between screens.
 
+And finally...
+
+* [`mortar-template-template`](https://github.com/mozilla/mortar-template-template), a template for building other templates. You probably don't need this one, unless you want to contribute with a brand new template and don't want to start from scratch.
+
 You can view more documentation [here](https://developer.mozilla.org/en-US/docs/Apps/App_templates).
 
 # Usage
