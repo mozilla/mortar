@@ -13,3 +13,6 @@
 [submodule "mortar-privileged-app-stub"]
 	path = mortar-privileged-app-stub
 	url = https://github.com/mozilla/mortar-privileged-app-stub
+[submodule "mortar-template-template"]
+	path = mortar-template-template
+	url = https://github.com/mozilla/mortar-template-template
