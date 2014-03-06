@@ -1,4 +1,4 @@
-# Open Web App Templates
+# Mortar
 
 This is a meta-repo that tracks all the templates that Mozilla is offering for Open Web Apps. Check out the README of each template for usage instructions.
 
@@ -18,18 +18,13 @@ You can view more documentation [here](https://developer.mozilla.org/en-US/docs/
 
 # Usage
 
-You can simply git clone any of the above templates, or use [volo](http://volojs.org/) to create an app from one of them. If you have node installed, simply run `npm install -g volo` to get volo. Examples:
+To get all the templates at the same time, just clone this repository:
 
-* Using git: `git clone <template-github-url> myapp`
-* Using volo: `volo create myapp mozilla/<template-name>`
+````
+git clone --recursive https://github.com/mozilla/mortar.git
+````
 
-Each template has documentation in its README specific to what it provides, but there are a few things that all of them provide.
+Or download [this ZIP](https://github.com/mozilla/mortar/archive/master.zip) that contains the latest version.
 
-All of them come with an initial project structure, a volo configuration file, initial css and js files, require.js, a basic manifest.webapp, and more. These are all very useful for developing webapps.
-
-You can use volo to fire up a development server, add javascript dependencies, and deploy you app. View [this documentation](https://developer.mozilla.org/en-US/docs/Apps/App_templates) for more details.
-
-[require.js](http://requirejs.org/) is a module system for javascript, and it makes it easy to manage javascript dependencies. Using this, we can easily minify and concatenate all your javascript without any extra work. It also organizes your javascript into a clean structure. Read more about it [here](https://developer.mozilla.org/en-US/docs/Apps/App_templates#What_Now.3F).
-
-The rest of the project is simply a starting point for all your HTML, CSS, and javascript.
+Of course, you can also separately clone the templates you're interested in.
 
