@@ -10,7 +10,7 @@ The following templates are available:
 * [`mortar-privileged-app-stub`](https://github.com/mozilla/mortar-privileged-app-stub): a privileged app template that demonstrates the usage of a privileged permission (`systemXHR`) to download remote content.
 * [`mortar-game-stub`](https://github.com/mozilla/mortar-game-stub): a minimal web game template that handles input and a render loop.
 * [`mortar-list-detail`](https://github.com/mozilla/mortar-list-detail): comes with a layouts library and sets up a list-detail layout for you.
-* [`mortar-tab-view`](https://github.com/mozilla/mortar-tab-view): similar to `mortar-list-detail` but the initial layout has tabs at the bottom, which let you switch between screens.
+* [`mortar-tab-view`](https://github.com/mozilla/mortar-tab-view): a template with a tabbed layout.
 
 And finally...
 
