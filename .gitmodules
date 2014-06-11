@@ -10,9 +10,9 @@
 [submodule "mortar-tab-view"]
 	path = mortar-tab-view
 	url = git@github.com:mozilla/mortar-tab-view.git
-[submodule "mortar-privileged-app-stub"]
-	path = mortar-privileged-app-stub
-	url = https://github.com/mozilla/mortar-privileged-app-stub
 [submodule "mortar-template-template"]
 	path = mortar-template-template
 	url = https://github.com/mozilla/mortar-template-template
+[submodule "mortar-privileged-remote-app"]
+	path = mortar-privileged-remote-app
+	url = https://github.com/mozilla/mortar-privileged-remote-app.git
