@@ -16,3 +16,6 @@
 [submodule "mortar-privileged-remote-app"]
 	path = mortar-privileged-remote-app
 	url = https://github.com/mozilla/mortar-privileged-remote-app.git
+[submodule "mortar-privileged-empty-app"]
+	path = mortar-privileged-empty-app
+	url = https://github.com/mozilla/mortar-privileged-empty-app.git

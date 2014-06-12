@@ -7,6 +7,7 @@ This is a _meta-repo_ that tracks all the templates that Mozilla is offering for
 The following templates are available:
 
 * [`mortar-app-stub`](https://github.com/mozilla/mortar-app-stub): a blank template for a hosted app that comes only with the basic things required to get started in app making.
+* [`mortar-privileged-empty-app`](https://github.com/mozilla/mortar-privileged-empty-app): an empty privileged template to quickly get started when you know what you're doing.
 * [`mortar-privileged-remote-app`](https://github.com/mozilla/mortar-privileged-remote-app): a privileged app template that demonstrates the usage of a privileged permission (`systemXHR`) to download remote content.
 * [`mortar-game-stub`](https://github.com/mozilla/mortar-game-stub): a minimal web game template that handles input and a render loop.
 * [`mortar-list-detail`](https://github.com/mozilla/mortar-list-detail): comes with a layouts library and sets up a list-detail layout for you.
