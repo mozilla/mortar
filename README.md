@@ -7,6 +7,7 @@ This is a _meta-repo_ that tracks all the templates that Mozilla is offering for
 The best and "more finished" templates are:
 * [`mortar-privileged-empty-app`](https://github.com/mozilla/mortar-privileged-empty-app): an empty privileged template to quickly get started when you know what you're doing.
 * [`mortar-privileged-remote-app`](https://github.com/mozilla/mortar-privileged-remote-app): a privileged app template that demonstrates the usage of a privileged permission (`systemXHR`) to download remote content.
+* [`mortar-hello-world`](https://github.com/mozilla/mortar-hello-world): an extremely simple, unprivileged "hello world" app.
 
 These following are in various states of code quality and simplicity. They need to be simplified and/or code reviewed to ensure they are as good as the previously mentioned templates:
 
@@ -21,7 +22,7 @@ And finally...
 
 You can view more documentation [here](https://developer.mozilla.org/en-US/docs/Apps/App_templates).
 
-If you want to help or get involved with the template updating, feel free to have a look at [this bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1038703) that tracks required work and dependencies. Ask us any question in #apps in irc.mozilla.org!
+If you want to help or get involved with the template updating, feel free to have a look at [this bug](https://bugzilla.mozilla.org/show_bug.cgi?id=1038703) that tracks required work and dependencies. Ask us any questions in #apps or #devtools on irc.mozilla.org!
 
 ## Usage
 
@@ -34,5 +35,3 @@ git clone --recursive https://github.com/mozilla/mortar.git
 Of course, you can also separately clone the templates you're interested in.
 
 Check out the README.md file of each template for its usage instructions.
-
-
