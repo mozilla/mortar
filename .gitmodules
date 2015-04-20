@@ -19,3 +19,6 @@
 [submodule "mortar-privileged-empty-app"]
 	path = mortar-privileged-empty-app
 	url = https://github.com/mozilla/mortar-privileged-empty-app.git
+[submodule "mortar-hello-world"]
+	path = mortar-hello-world
+	url = https://github.com/mozilla/mortar-hello-world
